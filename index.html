@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University CT Question Portal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="screenshotShield" class="screenshot-shield"></div> <!-- Added for experimental screenshot deterrence -->
+    <div class="main-wrapper">
+        <div class="container" id="mainContainer">
+            <!-- Login Section -->
+            <div id="loginSection" class="section-view">
+                <div class="logo">📚</div>
+                <h1>University CT Question Portal</h1>
+                <p class="subtitle">Access your CT questions and study materials</p>
+                <div class="form-group">
+                    <label for="studentIdInput">Student ID:</label>
+                    <input type="text" id="studentIdInput" placeholder="Enter your Student ID">
+                </div>
+                <button class="btn primary-btn" id="loginBtn">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+                <div class="ip-info">
+                    <div class="info-item">
+                        <span class="info-icon">🌐</span>
+                        <span>Device Info: <strong id="userIP">Loading...</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🔒</span>
+                        <span>This portal tracks your device for security</span>
+                    </div>
+                </div>
+                <div id="loginError" class="error hidden" aria-live="polite"></div>
+            </div>
+            <!-- Payment Section -->
+            <div id="paymentSection" class="section-view hidden">
+                <button class="btn back-btn" id="paymentBackBtn">← Back to Login</button>
+                <div class="payment-header">
+                    <div class="payment-icon">💳</div>
+                    <h1>Payment Required</h1>
+                    <p class="welcome-text">Welcome, <span id="studentName"></span>!</p>
+                </div>
+                <div class="security-alert">
+                    <div class="alert-icon">🛡️</div>
+                    <div class="alert-content">
+                        <strong>DEVICE SECURITY ACTIVE</strong>
+                        <p>Your Student ID will be permanently linked to this device. Please login from the same device after payment.</p>
+                    </div>
+                </div>
+                <div class="payment-section-inner">
+                    <h3>📱 Payment Instructions</h3>
+                    <div class="steps-container">
+                        <div class="step"><div class="step-number">1</div><div class="step-content">Open your bKash Mobile App</div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content">Send Money to the number below</div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content">Amount: <strong class="amount">10 Taka</strong></div></div>
+                        <div class="step"><div class="step-number">4</div><div class="step-content">Reference: <strong>Your Student ID</strong></div></div>
+                    </div>
+                    <div class="bkash-number">
+                        <img src="https://freelogopng.com/images/all_img/1656235654bkash-logo-white.png" alt="bKash Logo" class="bkash-icon-img">
+                        <div class="number-text">Send Money to: <strong>01540152307</strong></div>
+                    </div>
+                    <div class="payment-warning">
+                         <div class="warning-icon">⚠️</div>
+                        <div class="warning-content">
+                            <strong>IMPORTANT SECURITY NOTICE</strong>
+                            <ul>
+                                <li>Use your exact Student ID: <strong><span id="paymentStudentId"></span></strong> as Reference</li>
+                                <li>Payment amount: <strong>10 Taka</strong> only</li>
+                                <li><strong>🔒 One device per student:</strong> Don't share your ID with others</li>
+                                <li><strong>📱 Device Info:</strong> <span id="paymentIP"></span></li>
+                                <li>After payment, this device will be permanently registered</li>
+                                <li>Access will be granted within 24 hours of payment verification</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="contact-admin">
+                        <h3>📞 Contact Admin After Payment</h3>
+                        <div class="contact-info">
+                            <div class="contact-item"><span class="contact-icon">📱</span><span>WhatsApp: <strong>01703988303</strong></span></div>
+                            <div class="contact-item"><span class="contact-icon">✉️</span><span>Email: <strong>jahid.19th.126@gmail.com</strong></span></div>
+                        </div>
+                        <p class="contact-note">Send a screenshot of the payment confirmation</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="section-view hidden">
+                <button class="btn back-btn" id="dashboardLogoutBtn">← Logout</button>
+                <div class="dashboard-header">
+                    <div class="dashboard-icon">🎓</div>
+                    <h1>Select Subject</h1>
+                    <p class="welcome-text">Welcome back, <span id="dashboardName"></span>!</p>
+                </div>
+                <div class="security-status"><span class="status-icon">✅</span><span>Secure Session Active | Device Info: <span id="dashboardIP"></span></span></div>
+                <div id="subjectsGrid" class="subjects-grid"></div>
+            </div>
+            <!-- CT Selection Section -->
+            <div id="ctSection" class="section-view hidden">
+                <button class="btn back-btn" id="ctBackBtn">← Back to Subjects</button>
+                <div class="ct-header"><div class="ct-icon">📝</div><h1 id="subjectTitle"></h1></div>
+                <div id="ctGrid" class="ct-grid"></div>
+                <div id="midtermSection" class="midterm-section"></div>
+            </div>
+        </div>
+    </div>
+    <!-- PDF Viewer Section (Full Screen) -->
+    <div id="pdfSection" class="hidden pdf-fullscreen">
+        <div class="pdf-header">
+            <button class="btn pdf-back-btn" id="pdfBackBtn">← Back</button>
+            <h1 id="pdfTitle" class="pdf-title">CT Questions</h1>
+            <div class="pdf-controls">
+                <button class="btn control-btn" id="fullscreenBtn">⛶ Fullscreen</button>
+                <button class="btn control-btn" id="downloadBtn">⬇️ Download</button>
+            </div>
+        </div>
+        <div class="pdf-container">
+            <iframe id="pdfViewer" class="pdf-viewer" src="" allowfullscreen></iframe>
+            <div id="dynamicWatermarkContainer" class="dynamic-watermark-container"></div>
+        </div>
+    </div>
+    <div class="watermark" id="watermark"></div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
