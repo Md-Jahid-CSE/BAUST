@@ -1,6 +1,6 @@
 // =================================================================================
 // University Student Portal - Main Script
-// Version: 2.8.8 (Final Corrected Result Display for All Missing/Empty Fields)
+// Version: 2.9.0 (Performance Optimized for WebView)
 // =================================================================================
 
 // --- MODULES ---
@@ -118,46 +118,55 @@ function runApp() {
         textSpan.classList.toggle('hidden', isLoading);
     };
 
-    // --- BACKGROUND & UI EFFECTS ---
+    // --- BACKGROUND & UI EFFECTS (PERFORMANCE OPTIMIZED) ---
     const setupCosmicEffects = () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             return;
         }
 
+        const isMobile = window.innerWidth <= 768;
+
         const createElements = (containerId, count, className, configure) => {
             const container = document.getElementById(containerId);
             if (!container) return;
 
+            // Performance: Use a document fragment to reduce DOM reflows
+            const fragment = document.createDocumentFragment();
             for (let i = 0; i < count; i++) {
                 const el = document.createElement('div');
                 el.className = className;
                 configure(el, i);
-                container.appendChild(el);
+                fragment.appendChild(el);
             }
+            container.appendChild(fragment);
         };
 
-        createElements('stars', 150, 'star', (el) => {
-            el.style.width = `${Math.random() * 4 + 1}px`;
+        // Performance: Reduce element count on mobile devices
+        const starCount = isMobile ? 50 : 150;
+        const particleCount = isMobile ? 40 : 120;
+
+        createElements('stars', starCount, 'star', (el) => {
+            el.style.width = `${Math.random() * 3 + 1}px`;
             el.style.height = el.style.width;
             el.style.left = `${Math.random() * 100}%`;
             el.style.top = `${Math.random() * 100}%`;
-            el.style.animationDelay = `${Math.random() * 3}s`;
-            el.style.animationDuration = `${Math.random() * 2 + 2}s`;
+            el.style.animationDelay = `${Math.random() * 5}s`;
+            el.style.animationDuration = `${Math.random() * 3 + 2}s`;
         });
 
-        createElements('particles', 120, 'particle', (el) => {
-            el.style.width = `${Math.random() * 8 + 2}px`;
+        createElements('particles', particleCount, 'particle', (el) => {
+            el.style.width = `${Math.random() * 6 + 2}px`;
             el.style.height = el.style.width;
             el.style.left = `${Math.random() * 100}%`;
             el.style.top = `${Math.random() * 100}%`;
-            el.style.animationDelay = `${Math.random() * 8}s`;
+            el.style.animationDelay = `${Math.random() * 10}s`;
             const colors = ['rgba(79,172,254,0.8)', 'rgba(0,242,254,0.8)', 'rgba(168,237,234,0.8)'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             el.style.background = `radial-gradient(circle, ${color}, transparent)`;
         });
 
         const wavesContainer = document.getElementById('waves');
-        if (wavesContainer) {
+        if (wavesContainer && !isMobile) { // Disable heavy waves on mobile
             setInterval(() => {
                 const wave = document.createElement('div');
                 wave.className = 'wave';
@@ -165,7 +174,7 @@ function runApp() {
                 wave.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
                 wavesContainer.appendChild(wave);
                 setTimeout(() => wave.remove(), 4000);
-            }, 2000);
+            }, 3000); // Slower interval for less frequent DOM changes
         }
     };
 
@@ -343,20 +352,16 @@ function runApp() {
             
             const tbody = table.querySelector('tbody');
 
-            // Helper function to format the mark for display
-            // Shows 'N/A' if the mark is null, undefined, or an empty string. Otherwise, shows the mark.
             const formatMark = (mark) => (mark === null || mark === undefined || mark === "") ? 'N/A' : mark;
 
             Object.keys(pdfLinks).forEach(code => {
                 const subjectData = subjects[code] || {};
                 const attendanceMark = attendances[code];
                 
-                // Calculate total, treating non-existent marks as 0
                 const total = (Number(subjectData.ct1) || 0) + (Number(subjectData.ct2) || 0) + (Number(subjectData.ct3) || 0) + (Number(subjectData.midterm) || 0);
                 
                 const row = tbody.insertRow();
                 
-                // Use the helper function to display marks correctly
                 row.innerHTML = `
                     <td>${pdfLinks[code]?.name || code}</td>
                     <td>${formatMark(subjectData.ct1)}</td>
@@ -528,32 +533,22 @@ function runApp() {
 // === PROFILE ICON LOGIC (Corrected to work within a module) ===
 // =========================================================================
 
-/**
- * Toggles the visibility of the profile options panel.
- */
 function toggleOptions() {
   const optionsPanel = document.getElementById('profileOptions');
   if (optionsPanel) {
     optionsPanel.classList.toggle('show');
   }
 }
-
-// FIX: Make the function globally accessible from the module scope for the HTML onclick attribute.
 window.toggleOptions = toggleOptions;
 
-/**
- * Closes the profile options panel if a click occurs outside of it.
- */
 window.addEventListener('click', function(event) {
   const optionsPanel = document.getElementById('profileOptions');
   const profileContainer = document.querySelector('.profile-container');
   
-  // Check if the panel and container exist, and if the click was outside
   if (optionsPanel && profileContainer && !profileContainer.contains(event.target)) {
     optionsPanel.classList.remove('show');
   }
 });
-
 
 // Run the application
 document.addEventListener('DOMContentLoaded', runApp);
