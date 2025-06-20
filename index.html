@@ -27,7 +27,7 @@
             position: relative;
             animation: gradientShift 20s ease infinite;
             padding: 2rem 1rem;
-            overflow: hidden; /* মূল body তে overflow hidden রাখা ভালো */
+            overflow: hidden;
         }
 
         @keyframes gradientShift {
@@ -36,7 +36,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Cosmic Background Effects */
+        /* Cosmic Background Effects (এখন সব ডিভাইসে চলবে) */
         .cosmic-bg {
             position: absolute;
             width: 100%;
@@ -233,11 +233,7 @@
             50% { transform: scale(1.2); opacity: 1; }
         }
 
-        /* 
-        =========================================================
-        === Responsive Design: ফোনের জন্য নতুন করে পরিবর্তন করা হলো ===
-        =========================================================
-        */
+        /* Responsive Design: শুধুমাত্র সাইজ ও স্পেসিং ঠিক করা হয়েছে */
         @media (max-width: 480px) {
             body {
                 align-items: flex-start;
@@ -248,8 +244,7 @@
                 padding: 25px 20px;
                 width: 95%;
                 border-radius: 30px;
-                backdrop-filter: none;
-                background: rgba(23, 37, 84, 0.6);
+                backdrop-filter: blur(15px); /* ফোনে ব্লার সামান্য কমানো হলো */
             }
             
             .title { font-size: 1.8rem; margin-bottom: 12px; }
@@ -259,43 +254,18 @@
             .status { padding: 15px; }
             .status-title { font-size: 1.1rem; }
             .status-text { font-size: 0.85rem; }
-
-            /* 
-            ================================================================
-            === ফোনের জন্য পারফরম্যান্স অপ্টিমাইজেশন (বাবল এখন দেখা যাবে) ===
-            ================================================================
-            */
-            .cosmic-bg {
-                /* cosmic-bg কে আর display:none করা হচ্ছে না */
-                display: block; 
-            }
-            .stars {
-                /* শত শত তারা পারফরম্যান্সের জন্য বন্ধ রাখা হলো */
-                display: none; 
-            }
-            .particles {
-                /* কণাগুলোও বন্ধ রাখা হলো */
-                display: none;
-            }
-            
-            /* ৪টির বদলে ২টি বাবল দেখানো হবে পারফরম্যান্সের জন্য */
-            .orb:nth-child(3), 
-            .orb:nth-child(4) {
-                display: none;
-            }
         }
     </style>
 </head>
 <body>
     <div class="cosmic-bg">
-        <div class="stars"></div>
+        <div class="stars" id="stars-container"></div>
         <div class="floating-orbs">
             <div class="orb"></div>
             <div class="orb"></div>
             <div class="orb"></div>
             <div class="orb"></div>
         </div>
-        <!-- particles div টি HTML থেকে সরানো যেতে পারে যেহেতু এটি JS দিয়ে তৈরি হয় এবং ছোট স্ক্রিনে তৈরিই হবে না -->
     </div>
 
     <div class="container">
@@ -328,6 +298,11 @@
     </div>
 
     <script>
+    /*
+    ============================================================
+    ============= এখানে লোডিং এর সময় পরিবর্তন করুন =============
+    ============================================================
+    */
     const LOADING_DURATION_IN_SECONDS = 3600;
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -362,25 +337,30 @@
             }, totalDurationMs);
         }
         
-        updateLoadingStatus();
+        // তারা তৈরি করার ফাংশন (এখন সব ডিভাইসের জন্য চলবে)
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            if (!starsContainer) return;
+            
+            // ফোনের স্ক্রিনের আকারের উপর ভিত্তি করে তারার সংখ্যা নির্ধারণ
+            const starCount = window.innerWidth <= 480 ? 50 : 150;
 
-        // শুধুমাত্র বড় স্ক্রিনের জন্য তারা এবং অন্যান্য ভারী ইফেক্ট তৈরি করা হবে
-        if (window.innerWidth > 480) {
-            const starsContainer = document.querySelector('.stars');
-            if (starsContainer) {
-                for (let i = 0; i < 100; i++) {
-                    const star = document.createElement('div');
-                    star.className = 'star';
-                    const size = Math.random() * 3 + 1;
-                    star.style.width = size + 'px';
-                    star.style.height = size + 'px';
-                    star.style.left = Math.random() * 100 + '%';
-                    star.style.top = Math.random() * 100 + '%';
-                    star.style.animationDelay = Math.random() * 3 + 's';
-                    starsContainer.appendChild(star);
-                }
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1; // তারাগুলো একটু ছোট রাখা হলো
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
             }
         }
+
+        // সব ফাংশন চালু করা
+        updateLoadingStatus();
+        createStars();
     });
     </script>
 </body>
