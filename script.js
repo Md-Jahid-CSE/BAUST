@@ -140,43 +140,45 @@ function runApp() {
             container.appendChild(fragment);
         };
 
-        const starCount = isMobile ? 50 : 150;
-        const particleCount = isMobile ? 40 : 120;
+        // OPTIMIZED: Reduced element counts for better performance on mobile/webview
+        const starCount = isMobile ? 30 : 80;
+        const particleCount = isMobile ? 20 : 50;
 
         createElements('stars', starCount, 'star', (el) => {
-            el.style.width = `${Math.random() * 3 + 1}px`;
+            el.style.width = `${Math.random() * 2 + 1}px`; // Slightly smaller stars
             el.style.height = el.style.width;
             el.style.left = `${Math.random() * 100}%`;
             el.style.top = `${Math.random() * 100}%`;
-            el.style.animationDelay = `${Math.random() * 5}s`;
-            el.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            el.style.animationDelay = `${Math.random() * 6}s`;
+            el.style.animationDuration = `${Math.random() * 4 + 3}s`;
         });
 
         createElements('particles', particleCount, 'particle', (el) => {
-            el.style.width = `${Math.random() * 6 + 2}px`;
+            el.style.width = `${Math.random() * 5 + 1}px`; // Slightly smaller particles
             el.style.height = el.style.width;
             el.style.left = `${Math.random() * 100}%`;
             el.style.top = `${Math.random() * 100}%`;
-            el.style.animationDelay = `${Math.random() * 10}s`;
-            const colors = ['rgba(79,172,254,0.8)', 'rgba(0,242,254,0.8)', 'rgba(168,237,234,0.8)'];
+            el.style.animationDelay = `${Math.random() * 12}s`;
+            const colors = ['rgba(79,172,254,0.7)', 'rgba(0,242,254,0.7)', 'rgba(168,237,234,0.7)'];
             const color = colors[Math.floor(Math.random() * colors.length)];
             el.style.background = `radial-gradient(circle, ${color}, transparent)`;
         });
 
         const wavesContainer = document.getElementById('waves');
         if (wavesContainer && !isMobile) {
+            // OPTIMIZED: Increased interval to reduce frequency of DOM manipulation
             setInterval(() => {
                 const wave = document.createElement('div');
                 wave.className = 'wave';
-                const colors = ['rgba(79,172,254,0.3)', 'rgba(168,85,247,0.3)'];
+                const colors = ['rgba(79,172,254,0.2)', 'rgba(168,85,247,0.2)']; // Less opaque
                 wave.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
                 wavesContainer.appendChild(wave);
                 setTimeout(() => wave.remove(), 4000);
-            }, 3000);
+            }, 8000); // Was 3000ms
         }
     };
 
-    // --- CORE LOGIC ---
+    // --- CORE LOGIC (UNCHANGED) ---
     const getDeviceAndNetworkInfo = async () => {
         setButtonState(dom.login.btn, dom.login.btnText, dom.login.loader, true, "Initializing...");
         
@@ -305,7 +307,7 @@ function runApp() {
         }
     };
 
-    // --- VIEW RENDERING ---
+    // --- VIEW RENDERING (UNCHANGED) ---
     const renderDashboard = () => {
         dom.dashboard.nameDisplay.textContent = appState.currentStudent.name;
         const grid = dom.dashboard.subjectsGrid;
@@ -427,7 +429,7 @@ function runApp() {
         dom.body.classList.remove('content-hidden');
     };
 
-    // --- ELEMENT CREATORS ---
+    // --- ELEMENT CREATORS (UNCHANGED) ---
     const createCard = (className, icon, title, subtitle, onClick) => {
         const card = document.createElement('div');
         card.className = `subject-card ${className}`;
@@ -462,7 +464,7 @@ function runApp() {
         return card;
     };
     
-    // --- PDF & SECURITY ---
+    // --- PDF & SECURITY (UNCHANGED) ---
     const downloadResultAsPdf = () => {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
@@ -514,7 +516,7 @@ function runApp() {
         dom.body.classList.toggle('content-hidden', isOpen);
     };
     
-    // --- INITIALIZATION ---
+    // --- INITIALIZATION (UNCHANGED) ---
     const addEventListeners = () => {
         dom.login.btn.addEventListener('click', handleLogin);
         dom.login.input.addEventListener('keypress', (e) => {
