@@ -3,360 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অ্যাপ আপডেট হচ্ছে - App Update</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, 
-                #1e3c72 0%, 
-                #2a5298 25%, 
-                #667eea 50%, 
-                #764ba2 75%, 
-                #483D8B 100%);
-            background-size: 400% 400%;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            animation: gradientShift 20s ease infinite;
-            padding: 2rem 1rem;
-            overflow: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Cosmic Background Effects */
-        .cosmic-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .floating-orbs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            animation: floatOrb 15s linear infinite;
-        }
-
-        .orb:nth-child(1) { width: 100px; height: 100px; left: 5%; animation-duration: 20s; background: radial-gradient(circle, rgba(79, 172, 254, 0.6), transparent); }
-        .orb:nth-child(2) { width: 80px; height: 80px; left: 80%; animation-duration: 25s; background: radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent); }
-        .orb:nth-child(3) { width: 60px; height: 60px; left: 45%; animation-duration: 18s; background: radial-gradient(circle, rgba(0, 242, 254, 0.6), transparent); }
-        .orb:nth-child(4) { width: 120px; height: 120px; left: 65%; animation-duration: 22s; background: radial-gradient(circle, rgba(79, 172, 254, 0.6), transparent); }
-
-        @keyframes floatOrb {
-            0% { transform: translateY(120vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
-        }
-        
-        /* Main Container */
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px);
-            border-radius: 40px;
-            padding: 50px 40px;
-            text-align: center;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-            animation: slideIn 1.5s ease-out;
-            overflow: hidden;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(100px) scale(0.8); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
-        /* App Icon */
-        .app-icon {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe, #764ba2);
-            background-size: 300%;
-            border-radius: 35px;
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: white;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            animation: iconPulse 4s ease-in-out infinite, gradientMove 6s ease infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Typography */
-        .title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 15px;
-            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        /* Loading System */
-        .loading-container {
-            margin-bottom: 30px;
-        }
-
-        .loading-bar {
-            width: 100%;
-            height: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-            border-radius: 12px;
-            width: 0%;
-            animation: progressLoad 3600s linear forwards;
-        }
-
-        @keyframes progressLoad {
-            from { width: 0%; }
-            to { width: 100%; }
-        }
-
-        .loading-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        
-        /* Status Box */
-        .status {
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .status-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        .status-text {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
-        
-        /* Progress Dots */
-        .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            animation: dotPulse 1.5s ease-in-out infinite;
-        }
-
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes dotPulse {
-            0%, 100% { transform: scale(0.8); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        /* Responsive Design: শুধুমাত্র সাইজ ও স্পেসিং ঠিক করা হয়েছে */
-        @media (max-width: 480px) {
-            body {
-                align-items: flex-start;
-                padding-top: 2rem;
-            }
-            
-            .container {
-                padding: 25px 20px;
-                width: 95%;
-                border-radius: 30px;
-                backdrop-filter: blur(15px);
-            }
-            
-            .title { font-size: 1.8rem; margin-bottom: 12px; }
-            .subtitle { font-size: 0.95rem; margin-bottom: 25px; }
-            .app-icon { width: 90px; height: 90px; font-size: 45px; border-radius: 25px; margin-bottom: 20px; }
-            .loading-container, .progress-dots, .status { margin-top: 25px; margin-bottom: 25px; }
-            .status { padding: 15px; }
-            .status-title { font-size: 1.1rem; }
-            .status-text { font-size: 0.85rem; }
-        }
-    </style>
+    <title>University Student Portal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
+
+    <!-- Cosmic Background Effects -->
     <div class="cosmic-bg">
-        <div class="stars" id="stars"></div> <!-- HTML কোডে ID 'stars' আছে -->
+        <div class="stars" id="stars"></div>
         <div class="floating-orbs">
-            <div class="orb"></div>
-            <div class="orb"></div>
-            <div class="orb"></div>
-            <div class="orb"></div>
+            <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+        </div>
+        <div class="energy-waves" id="waves"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- Security Shield -->
+    <div id="screenshotShield" class="screenshot-shield"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <div class="container" id="mainContainer">
+
+            <!-- ======================= -->
+            <!-- === Login Section === -->
+            <!-- ======================= -->
+            <div id="loginSection" class="section-view active-view">
+                <div class="logo">🎓</div>
+                <h1 class="title">Student Portal Login</h1>
+                <p class="subtitle">Access academic resources, results, and more.</p>
+                
+                <div class="form-group">
+                    <label for="studentIdInput">Student ID:</label>
+                    <input type="text" id="studentIdInput" placeholder="Enter your University ID" aria-label="Student ID Input">
+                </div>
+                
+                <button class="btn primary-btn" id="loginBtn">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+                
+                <div class="ip-info">
+                    <div class="info-item">
+                        <span class="info-icon">🌐</span>
+                        <span>Device Info: <strong id="userIP">Loading...</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🔒</span>
+                        <span>Your device is tracked for security purposes.</span>
+                    </div>
+                </div>
+                
+                <div id="loginError" class="error hidden" aria-live="polite"></div>
+            </div>
+
+            <!-- ========================= -->
+            <!-- === Payment Section === -->
+            <!-- ========================= -->
+            <div id="paymentSection" class="section-view">
+                <button class="btn back-btn" id="paymentBackBtn" aria-label="Back to Login">← Back</button>
+                <div class="payment-header">
+                    <div class="logo">💳</div>
+                    <h1 class="title">Payment Required</h1>
+                    <p class="subtitle">Welcome, <span id="studentName"></span>!</p>
+                </div>
+                <div class="security-alert">
+                    <div class="alert-icon">🛡️</div>
+                    <div class="alert-content">
+                        <strong>DEVICE SECURITY ACTIVE</strong>
+                        <p>Your Student ID will be permanently linked to this device. Please log in from the same device after payment.</p>
+                    </div>
+                </div>
+                <div class="payment-section-inner">
+                    <h3>📱 Payment Instructions</h3>
+                    <div class="steps-container">
+                        <div class="step"><div class="step-number">1</div><div class="step-content">Open your bKash App</div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content">Select "Send Money"</div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content">Amount: <strong class="amount">10 BDT</strong></div></div>
+                        <div class="step"><div class="step-number">4</div><div class="step-content">Reference: <strong>Your Student ID</strong></div></div>
+                    </div>
+                    <div class="bkash-number">
+                        <img src="https://freelogopng.com/images/all_img/1656235654bkash-logo-white.png" alt="bKash Logo" class="bkash-icon">
+                        <div class="number-text">Send Money to: <strong>01540152307</strong></div>
+                    </div>
+                    <div class="payment-warning">
+                        <div class="warning-content">
+                            <strong>IMPORTANT SECURITY NOTICE</strong>
+                            <ul>
+                                <li>Use your exact Student ID: <strong><span id="paymentStudentId"></span></strong> as Reference</li>
+                                <li>Payment amount: <strong>10 BDT</strong> only</li>
+                                <li><strong>🔒 One device per student:</strong> Do not share your ID</li>
+                                <li><strong>📱 Device Info:</strong> <span id="paymentIP"></span></li>
+                                <li>After payment, this device will be permanently registered.</li>
+                                <li>Access will be granted within 24 hours of payment verification.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="contact-admin">
+                        <h3>📞 Contact Admin</h3>
+                        <div class="contact-info">
+                            <div class="contact-item"><span class="contact-icon">📱</span><span>WhatsApp: <strong>01703988303</strong></span></div>
+                            <div class="contact-item"><span class="contact-icon">✉️</span><span>Email: <strong>jahid.19th.126@gmail.com</strong></span></div>
+                        </div>
+                        <p class="contact-note">Send a screenshot of the payment confirmation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================== -->
+            <!-- === Dashboard Section === -->
+            <!-- ========================== -->
+            <div id="dashboardSection" class="section-view">
+                <button class="btn back-btn" id="dashboardLogoutBtn" aria-label="Logout">← Logout</button>
+                <div class="dashboard-header">
+                    <div class="logo">📚</div>
+                    <h1 class="title">Student Dashboard</h1>
+                    <p class="subtitle">Welcome back, <span id="dashboardName"></span>!</p>
+                </div>
+                <div class="security-status"><span>✅ Secure Session Active | Device: <span id="dashboardIP"></span></span></div>
+                <div id="subjectsGrid" class="subjects-grid"></div>
+            </div>
+            
+            <!-- ============================= -->
+            <!-- === Results Page Section === -->
+            <!-- ============================= -->
+            <div id="resultsPageSection" class="section-view">
+                <button class="btn back-btn" id="resultsBackBtn" aria-label="Back to Dashboard">← Dashboard</button>
+                <div class="results-header">
+                    <div class="logo">🏆</div>
+                    <h1 class="title">Academic Summary</h1>
+                </div>
+                <div id="resultsPageContainer" class="results-page-container"></div>
+                 <button class="btn download-pdf-btn hidden" id="downloadResultBtn" aria-label="Download Result as PDF">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download as PDF</span>
+                </button>
+            </div>
+
+            <!-- ============================= -->
+            <!-- === CT Selection Section === -->
+            <!-- ============================= -->
+            <div id="ctSection" class="section-view">
+                <button class="btn back-btn" id="ctBackBtn" aria-label="Back to Dashboard">← Dashboard</button>
+                <div class="ct-header"><div class="logo">📝</div><h1 id="subjectTitle" class="title"></h1></div>
+                <div id="ctGrid" class="ct-grid"></div>
+                <div id="midtermSection" class="midterm-section"></div>
+                <div id="classNoteSection" class="classnote-section"></div>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <div class="app-icon">
-            📱
-        </div>
-        
-        <h1 class="title">অ্যাপ আপডেট হচ্ছে</h1>
-        <p class="subtitle">আমাদের অ্যাপ্লিকেশন আরও ভাল অভিজ্ঞতার জন্য আপডেট হচ্ছে। অনুগ্রহ করে একটু অপেক্ষা করুন।</p>
-        
-        <div class="loading-container">
-            <div class="loading-bar">
-                <div class="progress" id="progressBar"></div>
+    <!-- ======================= -->
+    <!-- === PDF Viewer Modal === -->
+    <!-- ======================= -->
+    <div id="pdfSection" class="pdf-fullscreen">
+        <div class="pdf-header">
+            <button class="btn pdf-back-btn" id="pdfBackBtn">← Back</button>
+            <h1 id="pdfTitle" class="pdf-title-modal">Document Viewer</h1>
+            <div class="pdf-controls">
+                <button class="btn control-btn" id="fullscreenBtn" aria-label="Toggle Fullscreen">⛶ Fullscreen</button>
+                <button class="btn control-btn" id="downloadBtn" aria-label="Download Document">⬇️ Download</button>
             </div>
-            <div class="loading-text" id="loadingText">আপডেট প্রক্রিয়া চলমান...</div>
         </div>
-        
-        <div class="progress-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+        <div class="pdf-container">
+            <iframe id="pdfViewer" class="pdf-viewer" src="" allowfullscreen title="PDF Document Viewer"></iframe>
         </div>
-        
-        <div class="status">
-            <div class="status-title">🔄 আপডেট স্ট্যাটাস</div>
-            <div class="status-text">
-                নতুন ফিচার এবং উন্নত পারফরমেন্স নিয়ে আসছি। শীঘ্রই আপডেট সম্পূর্ণ হবে।
+    </div>
+    
+    
+    <!-- =========================================
+            PROFILE ICON AND OPTIONS PANEL
+    ========================================= -->
+    <div class="profile-container">
+    
+        <!-- This is the clickable corner icon -->
+        <button class="user-info" onclick="toggleOptions()">
+            <img src="images/icon.jpg" alt="User Icon" class="user-logo" />
+        </button>
+
+        <!-- This is the panel that appears on click -->
+        <div class="options" id="profileOptions">
+            <h4>Facing a Problem? I'm Here to Help!</h4>
+            
+            <!-- Profile Picture -->
+            <div class="profile-picture" style="background-image: url('images/profile.jpg');"></div>
+            
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <h5>MD. JAHID HASAN</h5>
+                <p class="info">CSE-19th, Section: C | Class Representative (CR)</p>
+                
+                <!-- Contact Information -->
+                <div class="contact-info-panel">
+                    <p>
+                        <a href="https://www.facebook.com/MJ2k0604" target="_blank">
+                            <img src="images/facebook-icon.png" class="icon-small" alt="Facebook" /> Facebook
+                        </a>
+                    </p>
+                    <p>
+                        <a href="https://wa.me/+8801703988303" target="_blank">
+                            <img src="images/whatsapp-icon.png" class="icon-small" alt="WhatsApp" /> WhatsApp
+                        </a>
+                    </p>
+                    <p>
+                        <img src="images/phone-icon.png" class="icon-small" alt="Phone" /> +880 170 398 8303
+                    </p>
+                    <p>
+                        <a href="mailto:jahid.19th.126@gmail.com">
+                            <img src="images/email-icon.png" class="icon-small" alt="Email" /> jahid.19th.126@gmail.com
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-    const LOADING_DURATION_IN_SECONDS = 3600;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        function updateLoadingStatus() {
-            const loadingTextElement = document.getElementById('loadingText');
-            const messages = [
-                'আপডেট প্রক্রিয়া চলমান...', 'নতুন ফিচার ইনস্টল হচ্ছে...', 'সিস্টেম অপ্টিমাইজ হচ্ছে...',
-                'ডাটাবেস আপগ্রেড হচ্ছে...', 'ইউআই উন্নত করা হচ্ছে...', 'সিকিউরিটি আপডেট হচ্ছে...',
-                'পারফরমেন্স টিউনিং হচ্ছে...', 'ক্যাশ অপ্টিমাইজেশন...', 'ফাইনাল চেক করা হচ্ছে...', 'প্রায় সম্পূর্ণ হয়েছে...'
-            ];
-            
-            const totalDurationMs = LOADING_DURATION_IN_SECONDS * 1000;
-            let messageIndex = 0;
-            const messageInterval = Math.max(3000, totalDurationMs / messages.length);
-
-            const messageTimer = setInterval(() => {
-                if (messageIndex < messages.length - 1) {
-                    messageIndex++;
-                    loadingTextElement.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingTextElement.textContent = messages[messageIndex];
-                        loadingTextElement.style.opacity = '1';
-                    }, 400);
-                } else {
-                    clearInterval(messageTimer);
-                }
-            }, messageInterval);
-
-            setTimeout(() => {
-                 clearInterval(messageTimer);
-                 loadingTextElement.textContent = "আপডেট সফলভাবে সম্পন্ন হয়েছে!";
-            }, totalDurationMs);
-        }
-        
-        // তারা তৈরি করার ফাংশন (ভুল সংশোধন করা হয়েছে)
-        function createStars() {
-            // ভুলটি এখানে ছিল: এখন সঠিক ID 'stars' ব্যবহার করা হচ্ছে
-            const starsContainer = document.getElementById('stars');
-            if (!starsContainer) return;
-            
-            const starCount = window.innerWidth <= 480 ? 70 : 150;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 2 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        // সব ফাংশন চালু করা
-        updateLoadingStatus();
-        createStars();
-    });
-    </script>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>
