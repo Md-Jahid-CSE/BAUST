@@ -26,18 +26,17 @@
             align-items: center;
             position: relative;
             animation: gradientShift 20s ease infinite;
-            padding: 2rem 1rem; /* দুই পাশে একটু প্যাডিং যোগ করা হলো */
+            padding: 2rem 1rem;
+            overflow: hidden; /* মূল body তে overflow hidden রাখা ভালো */
         }
 
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
-            25% { background-position: 50% 0%; }
             50% { background-position: 100% 50%; }
-            75% { background-position: 50% 100%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Cosmic Background Effects (বড় স্ক্রিনের জন্য) */
+        /* Cosmic Background Effects */
         .cosmic-bg {
             position: absolute;
             width: 100%;
@@ -91,12 +90,12 @@
         /* Main Container */
         .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(25px);
             border-radius: 40px;
             padding: 50px 40px;
             text-align: center;
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             max-width: 600px;
             width: 100%;
             position: relative;
@@ -110,7 +109,7 @@
             to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
-        /* Premium App Icon */
+        /* App Icon */
         .app-icon {
             width: 120px;
             height: 120px;
@@ -236,82 +235,69 @@
 
         /* 
         =========================================================
-        === Responsive Design: ছোট স্ক্রিনের জন্য চূড়ান্ত পরিবর্তন ===
+        === Responsive Design: ফোনের জন্য নতুন করে পরিবর্তন করা হলো ===
         =========================================================
         */
         @media (max-width: 480px) {
             body {
-                /* কন্টেন্ট যেন উপরে থাকে এবং স্ক্রল করা যায় */
                 align-items: flex-start;
                 padding-top: 2rem;
             }
             
             .container {
-                /* বক্সের ভেতরের প্যাডিং কমানো হয়েছে */
                 padding: 25px 20px;
                 width: 95%;
                 border-radius: 30px;
-                 /* ফোনের জন্য blur বন্ধ করা হয়েছে পারফরম্যান্সের জন্য */
                 backdrop-filter: none;
                 background: rgba(23, 37, 84, 0.6);
             }
             
-            .title {
-                font-size: 1.8rem;
-                margin-bottom: 12px; /* মার্জিন কমানো হয়েছে */
+            .title { font-size: 1.8rem; margin-bottom: 12px; }
+            .subtitle { font-size: 0.95rem; margin-bottom: 25px; }
+            .app-icon { width: 90px; height: 90px; font-size: 45px; border-radius: 25px; margin-bottom: 20px; }
+            .loading-container, .progress-dots, .status { margin-top: 25px; margin-bottom: 25px; }
+            .status { padding: 15px; }
+            .status-title { font-size: 1.1rem; }
+            .status-text { font-size: 0.85rem; }
+
+            /* 
+            ================================================================
+            === ফোনের জন্য পারফরম্যান্স অপ্টিমাইজেশন (বাবল এখন দেখা যাবে) ===
+            ================================================================
+            */
+            .cosmic-bg {
+                /* cosmic-bg কে আর display:none করা হচ্ছে না */
+                display: block; 
+            }
+            .stars {
+                /* শত শত তারা পারফরম্যান্সের জন্য বন্ধ রাখা হলো */
+                display: none; 
+            }
+            .particles {
+                /* কণাগুলোও বন্ধ রাখা হলো */
+                display: none;
             }
             
-            .subtitle {
-                font-size: 0.95rem;
-                margin-bottom: 25px; /* মার্জিন কমানো হয়েছে */
-            }
-
-            .app-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 45px;
-                border-radius: 25px;
-                margin-bottom: 20px; /* মার্জিন কমানো হয়েছে */
-            }
-
-            .loading-container {
-                margin-bottom: 25px; /* মার্জিন কমানো হয়েছে */
-            }
-
-            .progress-dots {
-                margin: 25px 0; /* মার্জিন কমানো হয়েছে */
-            }
-
-            .status {
-                margin-top: 25px; /* মার্জিন কমানো হয়েছে */
-                padding: 15px; /* প্যাডিং কমানো হয়েছে */
-            }
-
-            .status-title {
-                font-size: 1.1rem;
-            }
-
-            .status-text {
-                font-size: 0.85rem;
-            }
-
-            /* ছোট স্ক্রিনে ভারী ইফেক্টগুলো বন্ধ করা হলো */
-            .cosmic-bg {
+            /* ৪টির বদলে ২টি বাবল দেখানো হবে পারফরম্যান্সের জন্য */
+            .orb:nth-child(3), 
+            .orb:nth-child(4) {
                 display: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ব্যাকগ্রাউন্ড ইফেক্টের জন্য div (শুধুমাত্র বড় স্ক্রিনে দেখা যাবে) -->
     <div class="cosmic-bg">
         <div class="stars"></div>
         <div class="floating-orbs">
-            <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
         </div>
+        <!-- particles div টি HTML থেকে সরানো যেতে পারে যেহেতু এটি JS দিয়ে তৈরি হয় এবং ছোট স্ক্রিনে তৈরিই হবে না -->
     </div>
 
-    <!-- মূল কন্টেইনার বক্স -->
     <div class="container">
         <div class="app-icon">
             📱
@@ -342,14 +328,11 @@
     </div>
 
     <script>
-    // জাভাস্ক্রিপ্ট কোডে কোনো পরিবর্তনের প্রয়োজন নেই, এটি আগের মতোই কাজ করবে।
-    const LOADING_DURATION_IN_SECONDS = 3600; // লোডিং সময় (সেকেন্ডে)
+    const LOADING_DURATION_IN_SECONDS = 3600;
 
     document.addEventListener('DOMContentLoaded', () => {
-        // লোডিং টেক্সট এবং পার্সেন্টেজ আপডেট করার ফাংশন
         function updateLoadingStatus() {
             const loadingTextElement = document.getElementById('loadingText');
-            
             const messages = [
                 'আপডেট প্রক্রিয়া চলমান...', 'নতুন ফিচার ইনস্টল হচ্ছে...', 'সিস্টেম অপ্টিমাইজ হচ্ছে...',
                 'ডাটাবেস আপগ্রেড হচ্ছে...', 'ইউআই উন্নত করা হচ্ছে...', 'সিকিউরিটি আপডেট হচ্ছে...',
@@ -358,11 +341,10 @@
             
             const totalDurationMs = LOADING_DURATION_IN_SECONDS * 1000;
             let messageIndex = 0;
-
             const messageInterval = Math.max(3000, totalDurationMs / messages.length);
 
             const messageTimer = setInterval(() => {
-                if (messageIndex < messages.length -1) {
+                if (messageIndex < messages.length - 1) {
                     messageIndex++;
                     loadingTextElement.style.opacity = '0';
                     setTimeout(() => {
@@ -374,7 +356,6 @@
                 }
             }, messageInterval);
 
-            // লোডিং সম্পূর্ণ হলে টেক্সট পরিবর্তন
             setTimeout(() => {
                  clearInterval(messageTimer);
                  loadingTextElement.textContent = "আপডেট সফলভাবে সম্পন্ন হয়েছে!";
@@ -383,10 +364,10 @@
         
         updateLoadingStatus();
 
-        // শুধুমাত্র বড় স্ক্রিনের জন্য ভিজ্যুয়াল ইফেক্ট চালু করা হবে
+        // শুধুমাত্র বড় স্ক্রিনের জন্য তারা এবং অন্যান্য ভারী ইফেক্ট তৈরি করা হবে
         if (window.innerWidth > 480) {
             const starsContainer = document.querySelector('.stars');
-            if(starsContainer){
+            if (starsContainer) {
                 for (let i = 0; i < 100; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
