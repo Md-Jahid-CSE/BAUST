@@ -542,26 +542,5 @@ function runApp() {
     init();
 }
 
-// =========================================================================
-// === PROFILE ICON LOGIC (Corrected to work within a module) ===
-// =========================================================================
-
-function toggleOptions() {
-  const optionsPanel = document.getElementById('profileOptions');
-  if (optionsPanel) {
-    optionsPanel.classList.toggle('show');
-  }
-}
-window.toggleOptions = toggleOptions;
-
-window.addEventListener('click', function(event) {
-  const optionsPanel = document.getElementById('profileOptions');
-  const profileContainer = document.querySelector('.profile-container');
-  
-  if (optionsPanel && profileContainer && !profileContainer.contains(event.target)) {
-    optionsPanel.classList.remove('show');
-  }
-});
-
 // Run the application
 document.addEventListener('DOMContentLoaded', runApp);
