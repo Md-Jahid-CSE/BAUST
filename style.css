@@ -1,6 +1,6 @@
 /* ==========================================================================
-   University Student Portal - Cosmic Theme (Performance Optimized)
-   Version: 2.9.0
+   University Student Portal - Cosmic Theme (WebView Performance Optimized)
+   Version: 3.0.0
    ========================================================================== */
 
 /* ---------------------------------- */
@@ -15,25 +15,16 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #667eea 50%, #764ba2 75%, #483D8B 100%);
-    background-size: 400% 400%;
+    /* OPTIMIZED: Removed performance-heavy gradient animation. Using a static gradient. */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #483D8B 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    animation: gradientShift 20s ease infinite;
     padding: 2rem;
     color: #fff;
     overflow-x: hidden;
-    /* Performance: Hint to the browser about upcoming changes */
-    will-change: background-position;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; } 25% { background-position: 50% 0%; }
-    50% { background-position: 100% 50%; } 75% { background-position: 50% 100%; }
-    100% { background-position: 0% 50%; }
 }
 
 .cosmic-bg {
@@ -52,31 +43,33 @@ body {
     height: 100%;
 }
 
-.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; will-change: opacity; }
-@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 4s ease-in-out infinite; will-change: opacity; }
+@keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
 
-.orb { position: absolute; border-radius: 50%; animation: floatOrb 15s linear infinite; will-change: transform, opacity; }
-.orb:nth-child(1) { width: 100px; height: 100px; left: 5%; animation-duration: 20s; background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent); }
-.orb:nth-child(2) { width: 80px; height: 80px; left: 80%; animation-duration: 25s; background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent); }
-.orb:nth-child(3) { width: 60px; height: 60px; left: 45%; animation-duration: 18s; background: radial-gradient(circle, rgba(0, 242, 254, 0.3), transparent); }
-.orb:nth-child(4) { width: 120px; height: 120px; left: 65%; animation-duration: 22s; background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent); }
+.orb { position: absolute; border-radius: 50%; animation: floatOrb 20s linear infinite; will-change: transform, opacity; }
+/* OPTIMIZED: Simplified orb styles */
+.orb:nth-child(1) { width: 80px; height: 80px; left: 5%; animation-duration: 22s; background: radial-gradient(circle, rgba(79, 172, 254, 0.2), transparent); }
+.orb:nth-child(2) { width: 60px; height: 60px; left: 80%; animation-duration: 28s; background: radial-gradient(circle, rgba(168, 85, 247, 0.2), transparent); }
+.orb:nth-child(3) { width: 50px; height: 50px; left: 45%; animation-duration: 20s; background: radial-gradient(circle, rgba(0, 242, 254, 0.2), transparent); }
+.orb:nth-child(4) { width: 100px; height: 100px; left: 65%; animation-duration: 25s; background: radial-gradient(circle, rgba(79, 172, 254, 0.2), transparent); }
+
 @keyframes floatOrb {
-    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    0% { transform: translateY(110vh); opacity: 0; }
     10% { opacity: 1; } 90% { opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    /* OPTIMIZED: Removed rotate for better performance */
+    100% { transform: translateY(-10vh); opacity: 0; }
 }
 
 .wave { position: absolute; border-radius: 50%; border-width: 2px; border-style: solid; animation: waveExpand 4s ease-out infinite; will-change: transform, opacity; }
-/* Performance: Use transform:scale() instead of animating width/height */
 @keyframes waveExpand {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; left: 50%; top: 50%; }
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; left: 50%; top: 50%; }
     100% { transform: translate(-50%, -50%) scale(25); opacity: 0; }
 }
 
-.particle { position: absolute; border-radius: 50%; animation: particleFloat 8s ease-in-out infinite; will-change: transform, opacity; }
+.particle { position: absolute; border-radius: 50%; animation: particleFloat 10s ease-in-out infinite; will-change: transform, opacity; }
 @keyframes particleFloat {
-    0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
-    50% { transform: translateY(-30px) translateX(20px); opacity: 1; }
+    0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+    50% { transform: translateY(-25px) translateX(15px); opacity: 0.8; }
 }
 
 /* ----------------------------- */
@@ -91,13 +84,14 @@ body {
 }
 
 .container {
-    background: rgba(10, 25, 47, 0.7);
-    /* Performance: Slightly reduced blur for better performance */
-    backdrop-filter: blur(20px);
+    background: rgba(10, 25, 47, 0.75);
+    /* OPTIMIZED: Reduced blur for better performance */
+    backdrop-filter: blur(10px);
     border-radius: 40px;
     padding: 50px 40px;
     text-align: center;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    /* OPTIMIZED: Reduced shadow intensity */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.2);
     max-width: 800px;
     width: 90%;
@@ -107,18 +101,11 @@ body {
     will-change: transform, opacity;
 }
 
+/* OPTIMIZED: Removed heavy conic-gradient animation */
 .container::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.05), transparent, rgba(168, 85, 247, 0.05), transparent);
-    animation: containerRotate 15s linear infinite;
-    z-index: -1;
-    will-change: transform;
+    display: none;
 }
-@keyframes containerRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes slideIn { from { transform: translateY(100px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes slideIn { from { transform: translateY(50px) scale(0.9); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
 
 .section-view { display: none; animation: fadeIn 0.8s ease-out forwards; will-change: opacity, transform; }
 .section-view.active-view { display: block; }
@@ -131,25 +118,19 @@ body {
 .logo {
     font-size: 3.5rem;
     margin: 0 auto 20px;
-    text-shadow: 0 0 30px rgba(79, 172, 254, 0.6);
+    text-shadow: 0 0 25px rgba(79, 172, 254, 0.5);
     display: inline-block;
 }
 
 .title {
     font-size: 2.5rem;
     font-weight: 900;
-    background: linear-gradient(45deg, #ffffff, #4facfe, #ffffff, #00f2fe, #ffffff);
-    background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* OPTIMIZED: Removed gradient animation for performance */
+    color: #fff;
     margin-bottom: 15px;
-    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    animation: titleGlow 4s ease-in-out infinite;
+    text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     letter-spacing: -1px;
-    will-change: background-position;
 }
-@keyframes titleGlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
 .subtitle {
     font-size: 1.1rem;
@@ -167,15 +148,15 @@ label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 1rem; 
 input[type="text"] {
     width: 100%;
     padding: 16px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 15px;
     font-size: 1rem;
     transition: all 0.3s ease;
     background: rgba(0, 0, 0, 0.3);
     color: #fff;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
 }
-input[type="text"]:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+input[type="text"]:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 15px rgba(79, 172, 254, 0.4); }
 input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 .btn {
@@ -185,8 +166,8 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -196,13 +177,13 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-.primary-btn { width: 100%; color: #fff; background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
-.primary-btn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(79, 172, 254, 0.5); }
+.primary-btn { width: 100%; color: #fff; background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3); }
+.primary-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4); }
 
-.back-btn { position: absolute; top: 30px; left: 30px; background: rgba(255, 255, 255, 0.1); color: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); padding: 10px 18px; }
+.back-btn { position: absolute; top: 30px; left: 30px; background: rgba(255, 255, 255, 0.1); color: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); padding: 10px 18px; }
 .back-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
 
-.download-pdf-btn { margin-top: 25px; background: linear-gradient(135deg, #28a745, #218838); color: #fff; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4); }
+.download-pdf-btn { margin-top: 25px; background: linear-gradient(135deg, #28a745, #218838); color: #fff; box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3); }
 
 .btn-loader { width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -229,36 +210,38 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 .subject-card, .ct-card, .special-card {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
+    /* OPTIMIZED: Reduced blur */
+    backdrop-filter: blur(5px);
     padding: 25px;
     border-radius: 25px;
     cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    /* OPTIMIZED: Reduced shadow */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     will-change: transform, border-color, box-shadow;
 }
 .subject-card:hover:not(.disabled), .ct-card:hover:not(.disabled), .special-card:hover:not(.disabled) {
-    transform: translateY(-8px) scale(1.03);
-    border-color: rgba(79, 172, 254, 0.7);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 25px rgba(79, 172, 254, 0.2);
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(79, 172, 254, 0.6);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 .card-icon { font-size: 2.2rem; margin-bottom: 12px; color: #4facfe; }
 .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
 .card-subtitle { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); line-height: 1.5; }
 
-.result-card { background: linear-gradient(135deg, rgba(40, 167, 69, 0.3), rgba(33, 136, 56, 0.3)); }
-.midterm-card { background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(238, 90, 82, 0.3)); }
-.note-card { background: linear-gradient(135deg, rgba(23, 162, 184, 0.3), rgba(19, 132, 150, 0.3)); }
+.result-card { background: linear-gradient(135deg, rgba(40, 167, 69, 0.2), rgba(33, 136, 56, 0.2)); }
+.midterm-card { background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(238, 90, 82, 0.2)); }
+.note-card { background: linear-gradient(135deg, rgba(23, 162, 184, 0.2), rgba(19, 132, 150, 0.2)); }
 .special-card { display: flex; align-items: center; gap: 15px; text-align: left; }
 
 .ct-number { font-size: 2.2rem; font-weight: 800; color: #4facfe; margin-bottom: 8px; }
 .ct-title { font-weight: 600; font-size: 1rem; }
 
 .disabled { opacity: 0.5; cursor: not-allowed; background: rgba(0, 0, 0, 0.3); }
-.disabled:hover { transform: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-color: rgba(255, 255, 255, 0.15); }
+.disabled:hover { transform: none; box-shadow: 0 8px 25px rgba(0,0,0,0.2); border-color: rgba(255, 255, 255, 0.15); }
 .disabled-text { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); margin-top: 5px; display: block; }
 
 .results-page-container { background: rgba(10, 25, 47, 0.6); border-radius: 25px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.2); overflow-x: auto; }
@@ -273,7 +256,7 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 .steps-container { display: grid; gap: 12px; margin-bottom: 20px; }
 .step { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; }
 .step-number { width: 35px; height: 35px; flex-shrink: 0; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-.bkash-number { background: #E2136E; color: white; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; margin: 25px 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(226, 19, 110, 0.4); }
+.bkash-number { background: #E2136E; color: white; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; margin: 25px 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(226, 19, 110, 0.3); }
 .bkash-icon { height: 30px; margin-right: 12px; }
 .security-alert, .payment-warning { padding: 20px; border-radius: 15px; margin: 25px 0; text-align: left; }
 .security-alert { background: rgba(255, 193, 7, 0.2); border: 1px solid rgba(255, 193, 7, 0.4); color: #ffe69c; display: flex; align-items: center; }
@@ -290,13 +273,13 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 .pdf-fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0a192f; z-index: 1000; display: none; flex-direction: column; }
 .pdf-fullscreen.active-view { display: flex; }
-.pdf-header { background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(15px); padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.pdf-header { background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(8px); padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 .pdf-title-modal { font-size: 1.2rem; margin: 0; flex-grow: 1; text-align: center; }
 .pdf-controls { display: flex; gap: 12px; }
 .control-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); padding: 8px 16px; border-radius: 12px; font-size: 0.9rem; }
 .pdf-back-btn { background: rgba(255, 255, 255, 0.1); }
 .pdf-container { flex-grow: 1; padding: 20px; }
-.pdf-viewer { width: 100%; height: 100%; border: none; border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+.pdf-viewer { width: 100%; height: 100%; border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
 body.content-hidden .pdf-viewer { filter: blur(20px); }
 
 /* ================================================================
@@ -332,7 +315,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     background-size: cover;
     background-position: center;
     border: 3px solid #4facfe;
-    box-shadow: 0 0 20px rgba(79, 172, 254, 0.4);
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
 }
 
 .profile-details h5 {
@@ -378,7 +361,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
 
 @media (max-width: 768px) {
     body { align-items: flex-start; padding: 3rem 1rem; }
-    .container { padding: 40px 25px; backdrop-filter: blur(15px); }
+    .container { padding: 40px 25px; backdrop-filter: blur(8px); }
     .title { font-size: 2rem; }
     .subtitle { font-size: 1rem; }
     .back-btn { position: static; display: block; width: fit-content; margin: 0 auto 25px; }
