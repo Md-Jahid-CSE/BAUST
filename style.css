@@ -1,0 +1,440 @@
+/* ==========================================================================
+   University Student Portal - Cosmic Theme (Final Formatted Version)
+   Version: 2.8.2
+   ========================================================================== */
+
+/* ---------------------------------- */
+/* 1. Global Styles & Cosmic Background */
+/* ---------------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #667eea 50%, #764ba2 75%, #483D8B 100%);
+    background-size: 400% 400%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: gradientShift 20s ease infinite;
+    padding: 2rem;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; } 25% { background-position: 50% 0%; }
+    50% { background-position: 100% 50%; } 75% { background-position: 50% 100%; }
+    100% { background-position: 0% 50%; }
+}
+
+.cosmic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.stars, .floating-orbs, .energy-waves, .particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+.orb { position: absolute; border-radius: 50%; animation: floatOrb 15s linear infinite; }
+.orb:nth-child(1) { width: 100px; height: 100px; left: 5%; animation-duration: 20s; background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent); }
+.orb:nth-child(2) { width: 80px; height: 80px; left: 80%; animation-duration: 25s; background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent); }
+.orb:nth-child(3) { width: 60px; height: 60px; left: 45%; animation-duration: 18s; background: radial-gradient(circle, rgba(0, 242, 254, 0.3), transparent); }
+.orb:nth-child(4) { width: 120px; height: 120px; left: 65%; animation-duration: 22s; background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent); }
+@keyframes floatOrb {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; } 90% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.wave { position: absolute; border-radius: 50%; animation: waveExpand 4s ease-out infinite; }
+@keyframes waveExpand {
+    0% { width: 0; height: 0; opacity: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+    100% { width: 200%; height: 200%; opacity: 0; transform: translate(-50%, -50%); }
+}
+
+.particle { position: absolute; border-radius: 50%; animation: particleFloat 8s ease-in-out infinite; }
+@keyframes particleFloat {
+    0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
+    50% { transform: translateY(-30px) translateX(20px); opacity: 1; }
+}
+
+/* ----------------------------- */
+/* 2. Main Layout & Container    */
+/* ----------------------------- */
+
+.main-wrapper {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: rgba(10, 25, 47, 0.65);
+    backdrop-filter: blur(25px);
+    border-radius: 40px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    animation: slideIn 1s ease-out;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.05), transparent, rgba(168, 85, 247, 0.05), transparent);
+    animation: containerRotate 15s linear infinite;
+    z-index: -1;
+}
+@keyframes containerRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes slideIn { from { transform: translateY(100px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+
+.section-view { display: none; animation: fadeIn 0.8s ease-out forwards; }
+.section-view.active-view { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+/* ------------------------------------- */
+/* 3. Typography & Common Elements       */
+/* ------------------------------------- */
+
+.logo {
+    font-size: 3.5rem;
+    margin: 0 auto 20px;
+    text-shadow: 0 0 30px rgba(79, 172, 254, 0.6);
+    display: inline-block;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #ffffff, #4facfe, #ffffff, #00f2fe, #ffffff);
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    animation: titleGlow 4s ease-in-out infinite;
+    letter-spacing: -1px;
+}
+@keyframes titleGlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+.subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* ------------------------------------- */
+/* 4. Forms, Buttons & Alerts            */
+/* ------------------------------------- */
+
+.form-group { margin-bottom: 25px; text-align: left; }
+label { display: block; margin-bottom: 10px; font-weight: 600; font-size: 1rem; color: rgba(255, 255, 255, 0.9); }
+input[type="text"] {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+}
+input[type="text"]:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); }
+input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+.btn {
+    padding: 16px 25px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative; /* For loader positioning */
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+.primary-btn { width: 100%; color: #fff; background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
+.primary-btn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(79, 172, 254, 0.5); }
+
+.back-btn { position: absolute; top: 30px; left: 30px; background: rgba(255, 255, 255, 0.1); color: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); padding: 10px 18px; }
+.back-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); }
+
+.download-pdf-btn { margin-top: 25px; background: linear-gradient(135deg, #28a745, #218838); color: #fff; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4); }
+
+.btn-loader { width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.ip-info { background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 15px; padding: 15px; margin: 25px 0; text-align: left; }
+.info-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); }
+.info-item:not(:last-child) { margin-bottom: 8px; }
+.info-icon { font-size: 1.1rem; color: #4facfe; }
+
+.error { color: #ffd1d1; background: rgba(255, 82, 82, 0.2); padding: 15px; border-radius: 12px; margin-top: 25px; border: 1px solid rgba(255, 82, 82, 0.4); text-align: left; font-weight: 600; }
+
+.hidden { display: none !important; }
+
+/* ---------------------------------------------------- */
+/* 5. View-Specific Styles (Dashboard, CT, Results etc.) */
+/* ---------------------------------------------------- */
+
+.security-status { background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.4); border-radius: 12px; padding: 12px 20px; margin: 25px auto; display: inline-block; color: #c3f7d1; font-weight: 600; }
+
+.subjects-grid, .ct-grid { display: grid; gap: 25px; margin: 35px 0; }
+.subjects-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.ct-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.midterm-section, .classnote-section { margin-top: 25px; }
+
+.subject-card, .ct-card, .special-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.subject-card:hover:not(.disabled), .ct-card:hover:not(.disabled), .special-card:hover:not(.disabled) {
+    transform: translateY(-8px) scale(1.03);
+    border-color: rgba(79, 172, 254, 0.7);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 25px rgba(79, 172, 254, 0.2);
+}
+
+.card-icon { font-size: 2.2rem; margin-bottom: 12px; color: #4facfe; }
+.card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+.card-subtitle { font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); line-height: 1.5; }
+
+.result-card { background: linear-gradient(135deg, rgba(40, 167, 69, 0.3), rgba(33, 136, 56, 0.3)); }
+.midterm-card { background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(238, 90, 82, 0.3)); }
+.note-card { background: linear-gradient(135deg, rgba(23, 162, 184, 0.3), rgba(19, 132, 150, 0.3)); }
+.special-card { display: flex; align-items: center; gap: 15px; text-align: left; }
+
+.ct-number { font-size: 2.2rem; font-weight: 800; color: #4facfe; margin-bottom: 8px; }
+.ct-title { font-weight: 600; font-size: 1rem; }
+
+.disabled { opacity: 0.5; cursor: not-allowed; background: rgba(0, 0, 0, 0.3); }
+.disabled:hover { transform: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border-color: rgba(255, 255, 255, 0.15); }
+.disabled-text { font-size: 0.8rem; color: rgba(255, 255, 255, 0.5); margin-top: 5px; display: block; }
+
+.results-page-container { background: rgba(10, 25, 47, 0.6); border-radius: 25px; padding: 25px; border: 1px solid rgba(255, 255, 255, 0.2); overflow-x: auto; }
+.result-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 600px; }
+.result-table th, .result-table td { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
+.result-table th { background: rgba(79, 172, 254, 0.2); font-weight: 700; }
+.result-table tr:hover td { background-color: rgba(255, 255, 255, 0.05); }
+
+/* Payment Page Specifics */
+.payment-section-inner { background: rgba(0,0,0,0.3); border-radius: 25px; padding: 25px; margin: 25px 0; border: 1px solid rgba(255,255,255,0.2); }
+.payment-section-inner h3 { margin-bottom: 20px; font-size: 1.3rem; }
+.steps-container { display: grid; gap: 12px; margin-bottom: 20px; }
+.step { display: flex; align-items: center; gap: 15px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 12px; }
+.step-number { width: 35px; height: 35px; flex-shrink: 0; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.bkash-number { background: #E2136E; color: white; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1rem; margin: 25px 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 20px rgba(226, 19, 110, 0.4); }
+.bkash-icon { height: 30px; margin-right: 12px; }
+.security-alert, .payment-warning { padding: 20px; border-radius: 15px; margin: 25px 0; text-align: left; }
+.security-alert { background: rgba(255, 193, 7, 0.2); border: 1px solid rgba(255, 193, 7, 0.4); color: #ffe69c; display: flex; align-items: center; }
+.security-alert .alert-icon { font-size: 1.5rem; margin-right: 15px; }
+.payment-warning { background: rgba(255, 82, 82, 0.2); border: 1px solid rgba(255, 82, 82, 0.4); color: #ffd1d1; }
+.payment-warning ul { list-style-position: inside; padding-left: 0; margin-top: 10px; }
+.contact-admin { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+.contact-info-panel { display: flex; flex-direction: column; gap: 8px; }
+.contact-note { margin-top: 15px; font-style: italic; color: rgba(255,255,255,0.7); }
+
+/* ------------------------------------- */
+/* 6. PDF Viewer                         */
+/* ------------------------------------- */
+
+.pdf-fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0a192f; z-index: 1000; display: none; flex-direction: column; }
+.pdf-fullscreen.active-view { display: flex; }
+.pdf-header { background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(15px); padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.pdf-title-modal { font-size: 1.2rem; margin: 0; flex-grow: 1; text-align: center; }
+.pdf-controls { display: flex; gap: 12px; }
+.control-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); padding: 8px 16px; border-radius: 12px; font-size: 0.9rem; }
+.pdf-back-btn { background: rgba(255, 255, 255, 0.1); }
+.pdf-container { flex-grow: 1; padding: 20px; }
+.pdf-viewer { width: 100%; height: 100%; border: none; border-radius: 15px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); }
+body.content-hidden .pdf-viewer { filter: blur(20px); }
+
+/* ================================================================
+   7. PROFILE CONTAINER STYLES (Theme Matched & Corrected Spacing)
+   ================================================================ */
+
+.profile-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1010; /* Higher z-index to stay on top */
+}
+
+.user-info {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 0;
+    background-color: rgba(10, 25, 47, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-info:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.user-info img.user-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.options {
+    display: none;
+    position: absolute;
+    top: 75px;
+    left: 0;
+    width: 320px;
+    background: rgba(10, 25, 47, 0.65);
+    backdrop-filter: blur(25px);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-align: center;
+}
+
+.options.show {
+    display: block;
+    animation: fadeIn 0.5s ease-out; /* Use existing fadeIn animation */
+}
+
+.options h4 {
+    margin-bottom: 20px;
+    font-weight: 300;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center; /* FIX: Explicitly centered for better presentation */
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin: 0 auto 15px auto;
+    border: 4px solid #4facfe; /* Matched with theme accent */
+    box-shadow: 0 0 25px rgba(79, 172, 254, 0.4);
+}
+
+.profile-details h5 {
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.profile-details p.info {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #4facfe; /* Matched with theme accent */
+    margin-bottom: 20px;
+}
+
+/* --- FIX: Re-structured for perfect, consistent spacing using flexbox and gap. --- */
+.contact-info-panel {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* This now precisely controls the space between each contact item. */
+}
+
+.contact-info-panel p {
+    margin: 0; /* FIX: Removed old margin that caused the excessive gap. */
+    display: flex;
+    align-items: center;
+}
+
+.contact-info-panel a {
+    color: #f0f0f0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+    font-size: 0.95rem; /* A consistent font size for better readability. */
+}
+
+.contact-info-panel a:hover {
+    color: #4facfe; /* Matched with theme accent */
+}
+
+.contact-info-panel img.icon-small {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+
+/* ------------------------------------- */
+/* 8. Responsive Design                  */
+/* ------------------------------------- */
+
+@media (max-width: 768px) {
+    body { align-items: flex-start; padding: 3rem 1rem; }
+    .container { padding: 40px 25px; }
+    .title { font-size: 2rem; }
+    .subtitle { font-size: 1rem; }
+    .back-btn { position: static; display: block; width: fit-content; margin: 0 auto 25px; }
+    .subjects-grid { grid-template-columns: 1fr; }
+    .ct-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .profile-container { top: 15px; left: 15px; }
+}
+
+@media (max-width: 480px) {
+    .container { padding: 30px 15px; }
+    .title { font-size: 1.6rem; }
+    .subtitle { font-size: 0.9rem; }
+    .ct-grid { grid-template-columns: 1fr; }
+    .back-btn { margin-left: auto; margin-right: auto; }
+    .payment-section-inner, .results-page-container { padding: 20px; }
+    .options { width: calc(100vw - 30px); left: 50%; transform: translateX(-50%); }
+    .profile-container { left: 15px; }
+}
