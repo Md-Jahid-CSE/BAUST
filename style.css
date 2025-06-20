@@ -1,6 +1,6 @@
 /* ==========================================================================
-   University Student Portal - Cosmic Theme (Final Formatted Version)
-   Version: 2.8.2
+   University Student Portal - Cosmic Theme (Performance Optimized)
+   Version: 2.9.0
    ========================================================================== */
 
 /* ---------------------------------- */
@@ -26,6 +26,8 @@ body {
     padding: 2rem;
     color: #fff;
     overflow-x: hidden;
+    /* Performance: Hint to the browser about upcoming changes */
+    will-change: background-position;
 }
 
 @keyframes gradientShift {
@@ -50,10 +52,10 @@ body {
     height: 100%;
 }
 
-.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; }
+.star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; will-change: opacity; }
 @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-.orb { position: absolute; border-radius: 50%; animation: floatOrb 15s linear infinite; }
+.orb { position: absolute; border-radius: 50%; animation: floatOrb 15s linear infinite; will-change: transform, opacity; }
 .orb:nth-child(1) { width: 100px; height: 100px; left: 5%; animation-duration: 20s; background: radial-gradient(circle, rgba(79, 172, 254, 0.3), transparent); }
 .orb:nth-child(2) { width: 80px; height: 80px; left: 80%; animation-duration: 25s; background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent); }
 .orb:nth-child(3) { width: 60px; height: 60px; left: 45%; animation-duration: 18s; background: radial-gradient(circle, rgba(0, 242, 254, 0.3), transparent); }
@@ -64,13 +66,14 @@ body {
     100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
 }
 
-.wave { position: absolute; border-radius: 50%; animation: waveExpand 4s ease-out infinite; }
+.wave { position: absolute; border-radius: 50%; border-width: 2px; border-style: solid; animation: waveExpand 4s ease-out infinite; will-change: transform, opacity; }
+/* Performance: Use transform:scale() instead of animating width/height */
 @keyframes waveExpand {
-    0% { width: 0; height: 0; opacity: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); }
-    100% { width: 200%; height: 200%; opacity: 0; transform: translate(-50%, -50%); }
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; left: 50%; top: 50%; }
+    100% { transform: translate(-50%, -50%) scale(25); opacity: 0; }
 }
 
-.particle { position: absolute; border-radius: 50%; animation: particleFloat 8s ease-in-out infinite; }
+.particle { position: absolute; border-radius: 50%; animation: particleFloat 8s ease-in-out infinite; will-change: transform, opacity; }
 @keyframes particleFloat {
     0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.4; }
     50% { transform: translateY(-30px) translateX(20px); opacity: 1; }
@@ -88,18 +91,20 @@ body {
 }
 
 .container {
-    background: rgba(10, 25, 47, 0.65);
-    backdrop-filter: blur(25px);
+    background: rgba(10, 25, 47, 0.7);
+    /* Performance: Slightly reduced blur for better performance */
+    backdrop-filter: blur(20px);
     border-radius: 40px;
     padding: 50px 40px;
     text-align: center;
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     max-width: 800px;
     width: 90%;
     position: relative;
     animation: slideIn 1s ease-out;
     overflow: hidden;
+    will-change: transform, opacity;
 }
 
 .container::before {
@@ -110,11 +115,12 @@ body {
     background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.05), transparent, rgba(168, 85, 247, 0.05), transparent);
     animation: containerRotate 15s linear infinite;
     z-index: -1;
+    will-change: transform;
 }
 @keyframes containerRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes slideIn { from { transform: translateY(100px) scale(0.8); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
 
-.section-view { display: none; animation: fadeIn 0.8s ease-out forwards; }
+.section-view { display: none; animation: fadeIn 0.8s ease-out forwards; will-change: opacity, transform; }
 .section-view.active-view { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
@@ -141,6 +147,7 @@ body {
     text-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     animation: titleGlow 4s ease-in-out infinite;
     letter-spacing: -1px;
+    will-change: background-position;
 }
 @keyframes titleGlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
@@ -178,13 +185,14 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-shadow: 0 2px 5px rgba(0,0,0,0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    position: relative; /* For loader positioning */
+    position: relative;
+    will-change: transform, box-shadow;
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
@@ -192,7 +200,7 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 .primary-btn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(79, 172, 254, 0.5); }
 
 .back-btn { position: absolute; top: 30px; left: 30px; background: rgba(255, 255, 255, 0.1); color: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); padding: 10px 18px; }
-.back-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); }
+.back-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
 
 .download-pdf-btn { margin-top: 25px; background: linear-gradient(135deg, #28a745, #218838); color: #fff; box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4); }
 
@@ -221,14 +229,15 @@ input[type="text"]::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 .subject-card, .ct-card, .special-card {
     background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     padding: 25px;
     border-radius: 25px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    will-change: transform, border-color, box-shadow;
 }
 .subject-card:hover:not(.disabled), .ct-card:hover:not(.disabled), .special-card:hover:not(.disabled) {
     transform: translateY(-8px) scale(1.03);
@@ -298,7 +307,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     position: fixed;
     top: 20px;
     left: 20px;
-    z-index: 1010; /* Higher z-index to stay on top */
+    z-index: 1010;
 }
 
 .user-info {
@@ -312,6 +321,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
 }
 
 .user-info:hover {
@@ -332,19 +342,19 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     top: 75px;
     left: 0;
     width: 320px;
-    background: rgba(10, 25, 47, 0.65);
-    backdrop-filter: blur(25px);
+    background: rgba(10, 25, 47, 0.7);
+    backdrop-filter: blur(20px);
     padding: 25px;
     border-radius: 25px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     text-align: center;
 }
 
 .options.show {
     display: block;
-    animation: fadeIn 0.5s ease-out; /* Use existing fadeIn animation */
+    animation: fadeIn 0.5s ease-out;
 }
 
 .options h4 {
@@ -353,7 +363,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     font-size: 1.1rem;
     letter-spacing: 1px;
     color: rgba(255, 255, 255, 0.9);
-    text-align: center; /* FIX: Explicitly centered for better presentation */
+    text-align: center;
 }
 
 .profile-picture {
@@ -363,7 +373,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     background-size: cover;
     background-position: center;
     margin: 0 auto 15px auto;
-    border: 4px solid #4facfe; /* Matched with theme accent */
+    border: 4px solid #4facfe;
     box-shadow: 0 0 25px rgba(79, 172, 254, 0.4);
 }
 
@@ -376,20 +386,19 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
 .profile-details p.info {
     font-style: italic;
     font-size: 0.9rem;
-    color: #4facfe; /* Matched with theme accent */
+    color: #4facfe;
     margin-bottom: 20px;
 }
 
-/* --- FIX: Re-structured for perfect, consistent spacing using flexbox and gap. --- */
 .contact-info-panel {
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 12px; /* This now precisely controls the space between each contact item. */
+    gap: 12px;
 }
 
 .contact-info-panel p {
-    margin: 0; /* FIX: Removed old margin that caused the excessive gap. */
+    margin: 0;
     display: flex;
     align-items: center;
 }
@@ -400,11 +409,11 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     display: flex;
     align-items: center;
     transition: color 0.2s ease;
-    font-size: 0.95rem; /* A consistent font size for better readability. */
+    font-size: 0.95rem;
 }
 
 .contact-info-panel a:hover {
-    color: #4facfe; /* Matched with theme accent */
+    color: #4facfe;
 }
 
 .contact-info-panel img.icon-small {
@@ -419,7 +428,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
 
 @media (max-width: 768px) {
     body { align-items: flex-start; padding: 3rem 1rem; }
-    .container { padding: 40px 25px; }
+    .container { padding: 40px 25px; backdrop-filter: blur(15px); }
     .title { font-size: 2rem; }
     .subtitle { font-size: 1rem; }
     .back-btn { position: static; display: block; width: fit-content; margin: 0 auto 25px; }
@@ -434,7 +443,7 @@ body.content-hidden .pdf-viewer { filter: blur(20px); }
     .subtitle { font-size: 0.9rem; }
     .ct-grid { grid-template-columns: 1fr; }
     .back-btn { margin-left: auto; margin-right: auto; }
-    .payment-section-inner, .results-page-container { padding: 20px; }
-    .options { width: calc(100vw - 30px); left: 50%; transform: translateX(-50%); }
+    .options { width: calc(100vw - 30px); left: 0; transform: none; }
     .profile-container { left: 15px; }
+    .payment-section-inner, .results-page-container { padding: 20px; }
 }
