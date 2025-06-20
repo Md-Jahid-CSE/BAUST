@@ -1,6 +1,6 @@
 // =================================================================================
 // University Student Portal - Main Script
-// Version: 2.9.0 (Performance Optimized for WebView)
+// Version: 3.0.0 (WebView with Print-to-PDF integration)
 // =================================================================================
 
 // --- MODULES ---
@@ -130,7 +130,6 @@ function runApp() {
             const container = document.getElementById(containerId);
             if (!container) return;
 
-            // Performance: Use a document fragment to reduce DOM reflows
             const fragment = document.createDocumentFragment();
             for (let i = 0; i < count; i++) {
                 const el = document.createElement('div');
@@ -141,7 +140,6 @@ function runApp() {
             container.appendChild(fragment);
         };
 
-        // Performance: Reduce element count on mobile devices
         const starCount = isMobile ? 50 : 150;
         const particleCount = isMobile ? 40 : 120;
 
@@ -166,7 +164,7 @@ function runApp() {
         });
 
         const wavesContainer = document.getElementById('waves');
-        if (wavesContainer && !isMobile) { // Disable heavy waves on mobile
+        if (wavesContainer && !isMobile) {
             setInterval(() => {
                 const wave = document.createElement('div');
                 wave.className = 'wave';
@@ -174,7 +172,7 @@ function runApp() {
                 wave.style.borderColor = colors[Math.floor(Math.random() * colors.length)];
                 wavesContainer.appendChild(wave);
                 setTimeout(() => wave.remove(), 4000);
-            }, 3000); // Slower interval for less frequent DOM changes
+            }, 3000);
         }
     };
 
@@ -454,7 +452,7 @@ function runApp() {
     const createSpecialCard = (className, icon, title, url, onClick) => {
         const card = document.createElement('div');
         card.className = `special-card ${className}`;
-        card.innerHTML = `<div class="card-icon">${icon}</div><div class="card-title">${title}</div>`;
+        card.innerHTML = `<div class.card-icon">${icon}</div><div class="card-title">${title}</div>`;
         if (url) {
             card.onclick = onClick;
         } else {
@@ -485,7 +483,22 @@ function runApp() {
             headStyles: { fillColor: [79, 172, 254] }
         });
         
-        doc.save(`Result_${appState.currentStudent.id}.pdf`);
+        try {
+            // PDF এর ডেটা Base64 স্ট্রিং হিসাবে নেওয়া হচ্ছে
+            const pdfData = doc.output('datauristring');
+            
+            // Android অ্যাপের সাথে সংযোগ করার জন্য 'Android' ইন্টারফেস কল করা হচ্ছে
+            if (window.Android && typeof window.Android.printPdf === 'function') {
+                // Base64 ডেটা থেকে অপ্রয়োজনীয় অংশ বাদ দেওয়া হচ্ছে
+                const base64Pdf = pdfData.substring(pdfData.indexOf(',') + 1);
+                window.Android.printPdf(base64Pdf);
+            } else {
+                // যদি অ্যাপের বাইরে (ব্রাউজারে) চলে, তাহলে আগের মতো কাজ করবে
+                doc.save(`Result_${appState.currentStudent.id}.pdf`);
+            }
+        } catch (e) {
+            alert("Could not generate PDF. Error: " + e.message);
+        }
     };
 
     const updateIPDisplay = () => {
