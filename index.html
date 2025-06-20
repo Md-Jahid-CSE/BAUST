@@ -1,1 +1,226 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Student Portal</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
 
+    <!-- Cosmic Background Effects -->
+    <div class="cosmic-bg">
+        <div class="stars" id="stars"></div>
+        <div class="floating-orbs">
+            <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+        </div>
+        <div class="energy-waves" id="waves"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- Security Shield -->
+    <div id="screenshotShield" class="screenshot-shield"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+        <div class="container" id="mainContainer">
+
+            <!-- ======================= -->
+            <!-- === Login Section === -->
+            <!-- ======================= -->
+            <div id="loginSection" class="section-view active-view">
+                <div class="logo">🎓</div>
+                <h1 class="title">Student Portal Login</h1>
+                <p class="subtitle">Access academic resources, results, and more.</p>
+                
+                <div class="form-group">
+                    <label for="studentIdInput">Student ID:</label>
+                    <input type="text" id="studentIdInput" placeholder="Enter your University ID" aria-label="Student ID Input">
+                </div>
+                
+                <button class="btn primary-btn" id="loginBtn">
+                    <span class="btn-text">Login</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+                
+                <div class="ip-info">
+                    <div class="info-item">
+                        <span class="info-icon">🌐</span>
+                        <span>Device Info: <strong id="userIP">Loading...</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🔒</span>
+                        <span>Your device is tracked for security purposes.</span>
+                    </div>
+                </div>
+                
+                <div id="loginError" class="error hidden" aria-live="polite"></div>
+            </div>
+
+            <!-- ========================= -->
+            <!-- === Payment Section === -->
+            <!-- ========================= -->
+            <div id="paymentSection" class="section-view">
+                <button class="btn back-btn" id="paymentBackBtn" aria-label="Back to Login">← Back</button>
+                <div class="payment-header">
+                    <div class="logo">💳</div>
+                    <h1 class="title">Payment Required</h1>
+                    <p class="subtitle">Welcome, <span id="studentName"></span>!</p>
+                </div>
+                <div class="security-alert">
+                    <div class="alert-icon">🛡️</div>
+                    <div class="alert-content">
+                        <strong>DEVICE SECURITY ACTIVE</strong>
+                        <p>Your Student ID will be permanently linked to this device. Please log in from the same device after payment.</p>
+                    </div>
+                </div>
+                <div class="payment-section-inner">
+                    <h3>📱 Payment Instructions</h3>
+                    <div class="steps-container">
+                        <div class="step"><div class="step-number">1</div><div class="step-content">Open your bKash App</div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content">Select "Send Money"</div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content">Amount: <strong class="amount">10 BDT</strong></div></div>
+                        <div class="step"><div class="step-number">4</div><div class="step-content">Reference: <strong>Your Student ID</strong></div></div>
+                    </div>
+                    <div class="bkash-number">
+                        <img src="https://freelogopng.com/images/all_img/1656235654bkash-logo-white.png" alt="bKash Logo" class="bkash-icon">
+                        <div class="number-text">Send Money to: <strong>01540152307</strong></div>
+                    </div>
+                    <div class="payment-warning">
+                        <div class="warning-content">
+                            <strong>IMPORTANT SECURITY NOTICE</strong>
+                            <ul>
+                                <li>Use your exact Student ID: <strong><span id="paymentStudentId"></span></strong> as Reference</li>
+                                <li>Payment amount: <strong>10 BDT</strong> only</li>
+                                <li><strong>🔒 One device per student:</strong> Do not share your ID</li>
+                                <li><strong>📱 Device Info:</strong> <span id="paymentIP"></span></li>
+                                <li>After payment, this device will be permanently registered.</li>
+                                <li>Access will be granted within 24 hours of payment verification.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="contact-admin">
+                        <h3>📞 Contact Admin</h3>
+                        <div class="contact-info">
+                            <div class="contact-item"><span class="contact-icon">📱</span><span>WhatsApp: <strong>01703988303</strong></span></div>
+                            <div class="contact-item"><span class="contact-icon">✉️</span><span>Email: <strong>jahid.19th.126@gmail.com</strong></span></div>
+                        </div>
+                        <p class="contact-note">Send a screenshot of the payment confirmation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================== -->
+            <!-- === Dashboard Section === -->
+            <!-- ========================== -->
+            <div id="dashboardSection" class="section-view">
+                <button class="btn back-btn" id="dashboardLogoutBtn" aria-label="Logout">← Logout</button>
+                <div class="dashboard-header">
+                    <div class="logo">📚</div>
+                    <h1 class="title">Student Dashboard</h1>
+                    <p class="subtitle">Welcome back, <span id="dashboardName"></span>!</p>
+                </div>
+                <div class="security-status"><span>✅ Secure Session Active | Device: <span id="dashboardIP"></span></span></div>
+                <div id="subjectsGrid" class="subjects-grid"></div>
+            </div>
+            
+            <!-- ============================= -->
+            <!-- === Results Page Section === -->
+            <!-- ============================= -->
+            <div id="resultsPageSection" class="section-view">
+                <button class="btn back-btn" id="resultsBackBtn" aria-label="Back to Dashboard">← Dashboard</button>
+                <div class="results-header">
+                    <div class="logo">🏆</div>
+                    <h1 class="title">Academic Summary</h1>
+                </div>
+                <div id="resultsPageContainer" class="results-page-container"></div>
+                 <button class="btn download-pdf-btn hidden" id="downloadResultBtn" aria-label="Download Result as PDF">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download as PDF</span>
+                </button>
+            </div>
+
+            <!-- ============================= -->
+            <!-- === CT Selection Section === -->
+            <!-- ============================= -->
+            <div id="ctSection" class="section-view">
+                <button class="btn back-btn" id="ctBackBtn" aria-label="Back to Dashboard">← Dashboard</button>
+                <div class="ct-header"><div class="logo">📝</div><h1 id="subjectTitle" class="title"></h1></div>
+                <div id="ctGrid" class="ct-grid"></div>
+                <div id="midtermSection" class="midterm-section"></div>
+                <div id="classNoteSection" class="classnote-section"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= -->
+    <!-- === PDF Viewer Modal === -->
+    <!-- ======================= -->
+    <div id="pdfSection" class="pdf-fullscreen">
+        <div class="pdf-header">
+            <button class="btn pdf-back-btn" id="pdfBackBtn">← Back</button>
+            <h1 id="pdfTitle" class="pdf-title-modal">Document Viewer</h1>
+            <div class="pdf-controls">
+                <button class="btn control-btn" id="fullscreenBtn" aria-label="Toggle Fullscreen">⛶ Fullscreen</button>
+                <button class="btn control-btn" id="downloadBtn" aria-label="Download Document">⬇️ Download</button>
+            </div>
+        </div>
+        <div class="pdf-container">
+            <iframe id="pdfViewer" class="pdf-viewer" src="" allowfullscreen title="PDF Document Viewer"></iframe>
+        </div>
+    </div>
+    
+    
+    <!-- =========================================
+            PROFILE ICON AND OPTIONS PANEL
+    ========================================= -->
+    <div class="profile-container">
+    
+        <!-- This is the clickable corner icon -->
+        <button class="user-info" onclick="toggleOptions()">
+            <img src="images/icon.jpg" alt="User Icon" class="user-logo" />
+        </button>
+
+        <!-- This is the panel that appears on click -->
+        <div class="options" id="profileOptions">
+            <h4>Facing a Problem? I'm Here to Help!</h4>
+            
+            <!-- Profile Picture -->
+            <div class="profile-picture" style="background-image: url('images/profile.jpg');"></div>
+            
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <h5>MD. JAHID HASAN</h5>
+                <p class="info">CSE-19th, Section: C | Class Representative (CR)</p>
+                
+                <!-- Contact Information -->
+                <div class="contact-info-panel">
+                    <p>
+                        <a href="https://www.facebook.com/MJ2k0604" target="_blank">
+                            <img src="images/facebook-icon.png" class="icon-small" alt="Facebook" /> Facebook
+                        </a>
+                    </p>
+                    <p>
+                        <a href="https://wa.me/+8801703988303" target="_blank">
+                            <img src="images/whatsapp-icon.png" class="icon-small" alt="WhatsApp" /> WhatsApp
+                        </a>
+                    </p>
+                    <p>
+                        <img src="images/phone-icon.png" class="icon-small" alt="Phone" /> +880 170 398 8303
+                    </p>
+                    <p>
+                        <a href="mailto:jahid.19th.126@gmail.com">
+                            <img src="images/email-icon.png" class="icon-small" alt="Email" /> jahid.19th.126@gmail.com
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
