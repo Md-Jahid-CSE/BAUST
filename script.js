@@ -399,8 +399,18 @@ function runApp() {
             dom.ct.grid.appendChild(createCtCard(number, `Class Test ${number}`, url ? () => renderPdfView(`${subjectCode} - ${ctKey}`, url) : null));
         });
         
-        dom.ct.midtermSection.innerHTML = createSpecialCard('midterm-card', '📋', 'Midterm', pdfLinks[subjectCode]['Midterm'], () => renderPdfView(`${subjectCode} - Midterm`, pdfLinks[subjectCode]['Midterm'])).outerHTML;
-        dom.ct.classNoteSection.innerHTML = createSpecialCard('note-card', '🗒️', 'Class Notes', pdfLinks[subjectCode]['ClassNote'], () => renderPdfView(`${subjectCode} - Class Note`, pdfLinks[subjectCode]['ClassNote'])).outerHTML;
+        // --- FIX START ---
+        // Cleared old content and used appendChild to preserve click events.
+        dom.ct.midtermSection.innerHTML = '';
+        dom.ct.classNoteSection.innerHTML = '';
+
+        dom.ct.midtermSection.appendChild(
+            createSpecialCard('midterm-card', '📋', 'Midterm', pdfLinks[subjectCode]['Midterm'], () => renderPdfView(`${subjectCode} - Midterm`, pdfLinks[subjectCode]['Midterm']))
+        );
+        dom.ct.classNoteSection.appendChild(
+            createSpecialCard('note-card', '🗒️', 'Class Notes', pdfLinks[subjectCode]['ClassNote'], () => renderPdfView(`${subjectCode} - Class Note`, pdfLinks[subjectCode]['ClassNote']))
+        );
+        // --- FIX END ---
         
         switchView(dom.ct.section);
     };
@@ -454,7 +464,10 @@ function runApp() {
     const createSpecialCard = (className, icon, title, url, onClick) => {
         const card = document.createElement('div');
         card.className = `special-card ${className}`;
-        card.innerHTML = `<div class.card-icon">${icon}</div><div class="card-title">${title}</div>`;
+        // --- FIX START ---
+        // Corrected the broken HTML for the icon div from `class.` to `class=`.
+        card.innerHTML = `<div class="card-icon">${icon}</div><div class="card-title">${title}</div>`;
+        // --- FIX END ---
         if (url) {
             card.onclick = onClick;
         } else {
